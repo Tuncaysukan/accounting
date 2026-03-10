@@ -1,0 +1,156 @@
+/* AdminLTE Integration Styles */
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-header {
+  flex-shrink: 0;
+}
+
+.app-main {
+  display: flex;
+  flex: 1;
+}
+
+.app-sidebar {
+  width: 250px;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+
+.app-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.app-content-header {
+  background: #f8f9fa;
+  padding: 20px 0;
+  margin-bottom: 20px;
+}
+
+/* Small Box Styles */
+.small-box {
+  border-radius: 0.5rem;
+  margin-bottom: 20px;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.125);
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.small-box .inner {
+  padding: 10px;
+}
+
+.small-box h3 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin: 0 0 10px 0;
+}
+
+.small-box p {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.small-box-icon {
+  width: 90px;
+  height: 90px;
+  opacity: 0.1;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+/* Table Styles */
+.table-responsive {
+  margin-top: 20px;
+}
+
+.table {
+  margin-bottom: 0;
+}
+
+.table thead th {
+  border-bottom: 2px solid #dee2e6;
+  font-weight: 600;
+}
+
+/* Card Styles */
+.card {
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  margin-bottom: 20px;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.125);
+}
+
+.card-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+  padding: 1rem;
+  font-weight: 600;
+}
+
+.card-body {
+  padding: 1rem;
+}
+
+/* Button Styles */
+.btn {
+  border-radius: 0.25rem;
+  font-weight: 500;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+/* Form Styles */
+.form-control {
+  border-radius: 0.25rem;
+  border: 1px solid #ced4da;
+}
+
+.form-control:focus {
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .app-sidebar {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+  }
+
+  .app-main {
+    flex-direction: column;
+  }
+
+  .small-box {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .small-box-icon {
+    position: static;
+    opacity: 0.2;
+    margin-top: 10px;
+  }
+}
