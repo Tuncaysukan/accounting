@@ -2,7 +2,7 @@ CREATE DATABASE IF NOT EXISTS stok_muhasebe;
 USE stok_muhasebe;
 
 -- Ürünler tablosu
-CREATE TABLE urunler (
+CREATE TABLE IF NOT EXISTS urunler (
   id INT PRIMARY KEY AUTO_INCREMENT,
   urun_adi VARCHAR(255) NOT NULL,
   stok_miktari DECIMAL(10,2) DEFAULT 0,
@@ -12,7 +12,7 @@ CREATE TABLE urunler (
 );
 
 -- Stok hareketleri
-CREATE TABLE stok_hareketleri (
+CREATE TABLE IF NOT EXISTS stok_hareketleri (
   id INT PRIMARY KEY AUTO_INCREMENT,
   urun_id INT,
   hareket_tipi ENUM('giris', 'cikis') NOT NULL,
@@ -23,7 +23,7 @@ CREATE TABLE stok_hareketleri (
 );
 
 -- Faturalar
-CREATE TABLE faturalar (
+CREATE TABLE IF NOT EXISTS faturalar (
   id INT PRIMARY KEY AUTO_INCREMENT,
   fatura_no VARCHAR(50) UNIQUE NOT NULL,
   musteri_adi VARCHAR(255) NOT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE faturalar (
 );
 
 -- İrsaliyeler
-CREATE TABLE irsaliyeler (
+CREATE TABLE IF NOT EXISTS irsaliyeler (
   id INT PRIMARY KEY AUTO_INCREMENT,
   irsaliye_no VARCHAR(50) UNIQUE NOT NULL,
   musteri_adi VARCHAR(255) NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE irsaliyeler (
 );
 
 -- Personel
-CREATE TABLE personel (
+CREATE TABLE IF NOT EXISTS personel (
   id INT PRIMARY KEY AUTO_INCREMENT,
   ad VARCHAR(100) NOT NULL,
   soyad VARCHAR(100) NOT NULL,
@@ -55,7 +55,7 @@ CREATE TABLE personel (
 );
 
 -- İzinler
-CREATE TABLE izinler (
+CREATE TABLE IF NOT EXISTS izinler (
   id INT PRIMARY KEY AUTO_INCREMENT,
   personel_id INT,
   izin_tipi ENUM('yillik', 'hastalik', 'mazeret') NOT NULL,
@@ -66,7 +66,7 @@ CREATE TABLE izinler (
 );
 
 -- Vardiyalar
-CREATE TABLE vardiyalar (
+CREATE TABLE IF NOT EXISTS vardiyalar (
   id INT PRIMARY KEY AUTO_INCREMENT,
   personel_id INT,
   tarih DATE NOT NULL,
@@ -76,8 +76,21 @@ CREATE TABLE vardiyalar (
   FOREIGN KEY (personel_id) REFERENCES personel(id)
 );
 
+-- Kullanıcılar
+CREATE TABLE IF NOT EXISTS kullanicilar (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  kullanici_adi VARCHAR(100) UNIQUE NOT NULL,
+  sifre VARCHAR(255) NOT NULL,
+  rol ENUM('admin', 'muhasebe', 'stok', 'ik') NOT NULL,
+  ad VARCHAR(100),
+  soyad VARCHAR(100),
+  email VARCHAR(100),
+  aktif TINYINT(1) DEFAULT 1,
+  olusturma_tarihi TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Bordrolar
-CREATE TABLE bordrolar (
+CREATE TABLE IF NOT EXISTS bordrolar (
   id INT PRIMARY KEY AUTO_INCREMENT,
   personel_id INT,
   donem VARCHAR(7) NOT NULL,

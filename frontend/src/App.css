@@ -129,6 +129,20 @@
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
+/* User avatar in navbar */
+.user-avatar {
+  font-size: 1.5rem;
+  color: #6c757d;
+  line-height: 1;
+}
+
+.user-avatar-lg {
+  font-size: 4rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .app-sidebar {
