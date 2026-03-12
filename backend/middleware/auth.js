@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-export const authenticateToken = (req, res, next) => {
+export function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
 
@@ -10,21 +10,23 @@ export const authenticateToken = (req, res, next) => {
 
   jwt.verify(token, process.env.JWT_SECRET || 'gizli_anahtar_2024', (err, user) => {
     if (err) {
-      return res.status(403).json({ error: 'Geçersiz veya süresi dolmuş token' });
+      return res.status(403).json({ error: 'Geçersiz token' });
     }
-    req.kullanici = user;
+    req.user = user;
     next();
   });
-};
+}
 
-export const requireRole = (...roles) => {
+export function authorizeRole(...roles) {
   return (req, res, next) => {
-    if (!req.kullanici) {
+    if (!req.user) {
       return res.status(401).json({ error: 'Yetkilendirme gerekli' });
     }
-    if (!roles.includes(req.kullanici.rol)) {
+
+    if (!roles.includes(req.user.rol)) {
       return res.status(403).json({ error: 'Bu işlem için yetkiniz yok' });
     }
+
     next();
   };
-};
+}

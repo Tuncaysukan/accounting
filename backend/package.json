@@ -6,7 +6,10 @@
     "dev": "nodemon server.js",
     "start": "node server.js",
     "migrate": "node scripts/migrate.js",
-    "seed": "node scripts/seed.js"
+    "seed": "node scripts/seed.js",
+    "reset": "node scripts/reset.js",
+    "migrate:seed": "npm run migrate && npm run seed",
+    "db:fresh": "npm run reset && npm run migrate && npm run seed"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

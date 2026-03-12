@@ -1,5 +1,6 @@
-import { BrowserRouter, Routes, Route, Link, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import Swal from 'sweetalert2';
 import Login from './components/Login/Login';
 import Stok from './components/Stok/Stok';
 import Muhasebe from './components/Muhasebe/Muhasebe';
@@ -39,8 +40,34 @@ function ProtectedRoute({ children }) {
 
 function Layout() {
   const { kullanici, logout } = useAuth();
+  const navigate = useNavigate();
   const izinliMenuler = ROL_MENULER[kullanici?.rol] || [];
   const badge = ROL_BADGE[kullanici?.rol] || { label: kullanici?.rol, cls: 'text-bg-secondary' };
+
+  const handleLogout = () => {
+    Swal.fire({
+      title: 'Çıkış Yap',
+      text: 'Çıkış yapmak istediğinize emin misiniz?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Evet, Çıkış Yap',
+      cancelButtonText: 'İptal',
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logout();
+        Swal.fire({
+          icon: 'success',
+          title: 'Çıkış Yapıldı',
+          text: 'Başarıyla çıkış yaptınız.',
+          timer: 1500,
+          showConfirmButton: false
+        });
+        navigate('/login');
+      }
+    });
+  };
 
   return (
     <div className="app-wrapper">
@@ -79,7 +106,7 @@ function Layout() {
                   </p>
                 </li>
                 <li className="user-footer">
-                  <button className="btn btn-default btn-flat float-end" onClick={logout}>
+                  <button className="btn btn-default btn-flat float-end" onClick={handleLogout}>
                     <i className="bi bi-box-arrow-right me-1"></i>Çıkış
                   </button>
                 </li>

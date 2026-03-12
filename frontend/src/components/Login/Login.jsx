@@ -1,14 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import Swal from 'sweetalert2';
 import './Login.css';
-
-const DEMO_ACCOUNTS = [
-  { label: 'Admin', kullanici_adi: 'admin', sifre: 'admin123' },
-  { label: 'Muhasebe', kullanici_adi: 'muhasebe', sifre: 'muhasebe123' },
-  { label: 'Stok', kullanici_adi: 'stok', sifre: 'stok123' },
-  { label: 'İK', kullanici_adi: 'ik', sifre: 'ik123' },
-];
 
 function Login() {
   const { login } = useAuth();
@@ -16,38 +10,58 @@ function Login() {
 
   const [form, setForm] = useState({ kullanici_adi: '', sifre: '' });
   const [sifreGoster, setSifreGoster] = useState(false);
-  const [hata, setHata] = useState('');
   const [yukleniyor, setYukleniyor] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
-    if (hata) setHata('');
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
     if (!form.kullanici_adi.trim() || !form.sifre.trim()) {
-      setHata('Lütfen tüm alanları doldurun.');
+      Swal.fire({
+        icon: 'warning',
+        title: 'Eksik Bilgi',
+        text: 'Lütfen tüm alanları doldurun.',
+        confirmButtonText: 'Tamam'
+      });
       return;
     }
 
     setYukleniyor(true);
-    setHata('');
 
     try {
       await login(form.kullanici_adi, form.sifre);
-      navigate('/');
+      
+      Swal.fire({
+        icon: 'success',
+        title: 'Giriş Başarılı!',
+        text: 'Yönlendiriliyorsunuz...',
+        timer: 1500,
+        showConfirmButton: false
+      });
+
+      setTimeout(() => {
+        navigate('/');
+      }, 1500);
     } catch (err) {
-      setHata(err.response?.data?.error || 'Giriş yapılamadı, tekrar deneyin.');
+      const errorMessage = err.response?.data?.error || 'Giriş yapılamadı, tekrar deneyin.';
+      
+      Swal.fire({
+        icon: 'error',
+        title: 'Giriş Başarısız',
+        text: errorMessage,
+        confirmButtonText: 'Tekrar Dene'
+      });
     } finally {
       setYukleniyor(false);
     }
   };
 
-  const demoGiris = (hesap) => {
-    setForm({ kullanici_adi: hesap.kullanici_adi, sifre: hesap.sifre });
-    setHata('');
+  const demoGiris = (kullanici_adi, sifre) => {
+    setForm({ kullanici_adi, sifre });
   };
 
   return (
@@ -89,13 +103,6 @@ function Login() {
         </div>
 
         <form onSubmit={handleSubmit} noValidate>
-          {hata && (
-            <div className="login-error">
-              <i className="bi bi-exclamation-circle-fill"></i>
-              {hata}
-            </div>
-          )}
-
           <div className="login-field">
             <label htmlFor="kullanici_adi">Kullanıcı Adı</label>
             <div className="login-input-wrapper">
@@ -155,16 +162,34 @@ function Login() {
         <div className="login-demo">
           <div className="login-demo-title">Demo Hesaplar</div>
           <div className="login-demo-accounts">
-            {DEMO_ACCOUNTS.map((h) => (
-              <button
-                key={h.kullanici_adi}
-                type="button"
-                className="login-demo-btn"
-                onClick={() => demoGiris(h)}
-              >
-                {h.label}
-              </button>
-            ))}
+            <button
+              type="button"
+              className="login-demo-btn"
+              onClick={() => demoGiris('admin', 'admin123')}
+            >
+              Admin
+            </button>
+            <button
+              type="button"
+              className="login-demo-btn"
+              onClick={() => demoGiris('muhasebe', 'muhasebe123')}
+            >
+              Muhasebe
+            </button>
+            <button
+              type="button"
+              className="login-demo-btn"
+              onClick={() => demoGiris('stok', 'stok123')}
+            >
+              Stok
+            </button>
+            <button
+              type="button"
+              className="login-demo-btn"
+              onClick={() => demoGiris('ik', 'ik123')}
+            >
+              İK
+            </button>
           </div>
         </div>
 
