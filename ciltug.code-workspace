@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"name": "ciltug",
+			"path": "."
+		},
+		{
+			"name": "dist",
+			"path": "../../Downloads/AdminLTE-4.0.0-rc4/AdminLTE-4.0.0-rc4/dist"
+		}
+	],
+	"settings": {
+		"javascript.autoClosingTags": false
+	}
+}
